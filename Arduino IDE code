@@ -1,0 +1,38 @@
+#include <LiquidCrystal.h> 
+#include <Wire.h>
+#include <Adafruit_MLX90614.h>
+
+LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
+
+Adafruit_MLX90614 mlx = Adafruit_MLX90614();
+
+void setup ()
+{
+  mlx.begin();
+  lcd.begin(16, 2); 
+  lcd.clear(); 
+  lcd.print("    Infrared  "); 
+                                 
+  pinMode(10, OUTPUT);        
+  analogWrite(10, 125);  
+    
+  lcd.setCursor(0,1);
+  lcd.print("  Thermometer");    
+  delay(3000);                        
+  lcd.clear();
+}
+
+void loop()
+{
+ lcd.setCursor(0,0);
+ lcd.print("Ambient ");
+ lcd.print(mlx.readAmbientTempC());
+ lcd.print(" C");
+ 
+ lcd.setCursor(0,1);
+ lcd.print("Target  ");
+ lcd.print(mlx.readObjectTempC());
+ lcd.print(" C");
+
+ delay(100);
+}
